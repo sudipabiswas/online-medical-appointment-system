@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Medical Appointment System</title>
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="top-bar">
+      <div class="container">
+        <div class="top-left">
+          <i class="fa-solid fa-phone"></i>
+          +880 1311998252
+        </div>
+
+        <div class="top-right">
+          <a href="#">Emergency</a>
+
+          <a href="#">Support</a>
+
+          <a href="#">Contact</a>
+        </div>
+      </div>
+    </div>
+
+    <header>
+      <div class="navbar container">
+        <!-- Logo -->
+        <div class="logo">
+          <i class="fa-solid fa-heart-pulse"></i>
+          <div>
+            <h2>Medical</h2>
+            <span>Appointment System</span>
+          </div>
+        </div>
+
+        <!-- Navigation -->
+        <!-- Mobile Menu Button -->
+        <div class="menu-toggle" id="menu-toggle">
+          <i class="fa-solid fa-bars"></i>
+        </div>
+        <nav id="nav-menu">
+          <ul>
+            <li><a class="active" href="#">Home</a></li>
+            <li><a href="#">Doctors</a></li>
+            <li><a href="#">Appointments</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="nav-buttons">
+          <a href="login.html" class="login-btn">
+            <i class="fa-regular fa-user"></i> Login
+          </a>
+
+          <a href="#" class="book-btn"> Book Appointment </a>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="overlay"></div>
+
+      <div class="container hero-container">
+        <div class="hero-content">
+          <span class="tagline"> Trusted Healthcare Platform </span>
+
+          <h1>
+            Your Health Is Our <br />
+            Highest Priority
+          </h1>
+
+          <p>
+            Easily book appointments with experienced doctors, manage your
+            medical records, receive digital prescriptions, and access quality
+            healthcare services anytime and anywhere.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#" class="book-btn"> Book Appointment </a>
+
+            <a href="login.html" class="login-btn">
+              <i class="fa-regular fa-user"></i>
+              Login
+            </a>
+          </div>
+
+          <div class="hero-info">
+            <div class="info-box">
+              <h2>50+</h2>
+
+              <span>Qualified Doctors</span>
+            </div>
+
+            <div class="info-box">
+              <h2>24/7</h2>
+
+              <span>Medical Support</span>
+            </div>
+
+            <div class="info-box">
+              <h2>100%</h2>
+
+              <span>Secure System</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side -->
+
+        <div class="hero-image">
+          <img src="images/doctor.png" alt="Doctor" />
+
+          <div class="floating-card">
+            <h3>Why Choose Us?</h3>
+
+            <ul>
+              <li>
+                <i class="fa-solid fa-check"></i>
+                Expert Doctors
+              </li>
+
+              <li>
+                <i class="fa-solid fa-check"></i>
+                Online Appointment
+              </li>
+
+              <li>
+                <i class="fa-solid fa-check"></i>
+                Digital Prescription
+              </li>
+
+              <li>
+                <i class="fa-solid fa-check"></i>
+                24/7 Patient Support
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      const menuToggle = document.getElementById("menu-toggle");
+
+      const navMenu = document.getElementById("nav-menu");
+
+      menuToggle.addEventListener("click", function () {
+        navMenu.classList.toggle("active");
+      });
+    </script>
+  </body>
+</html>
