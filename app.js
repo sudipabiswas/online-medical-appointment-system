@@ -1,97 +1,117 @@
-const form = document.getElementById("register-form");
-const nameInput = document.getElementById("patient-name");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const confirmPassword = document.getElementById("confirm-password");
+document.addEventListener("DOMContentLoaded", () => {
 
-const emailFeedback = document.getElementById("email-feedback");
-const passwordFeedback = document.getElementById("password-feedback");
-const successMessage = document.getElementById("success-message");
+    const statsGrid = document.getElementById("stats-grid");
 
-if (!form) {
-  console.log("Registration form not found yet.");
-} else {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!statsGrid) return;
 
-  email.addEventListener("input", function () {
-    if (emailRegex.test(email.value)) {
-      emailFeedback.textContent = "Valid Email";
-      emailFeedback.style.color = "green";
-    } else {
-      emailFeedback.textContent = "Invalid Email Address";
-      emailFeedback.style.color = "red";
+    // Reusable Component
+    function StatsCardComponent(title, count, statusColor) {
+        return `
+            <div class="card">
+                <h3>${title}</h3>
+                <p class="card-count">${count}</p>
+
+                <div class="card-status">
+                    <span class="status-dot" style="background:${statusColor};"></span>
+                    <span>Active Monitoring</span>
+                </div>
+            </div>
+        `;
     }
-  });
+// DOM References
+const registrationForm = document.getElementById("registration-form");
+const userEmail = document.getElementById("user-email");
+const emailError = document.getElementById("email-error");
+const userPassword = document.getElementById("user-password");
+const strengthMeter = document.getElementById("strength-meter");
+const strengthText = document.getElementById("strength-text");
 
-  password.addEventListener("input", function () {
-    const value = password.value;
+// Email Validation
+userEmail.addEventListener("input", () => {
 
-    let strength = 0;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (value.length >= 8) strength++;
-
-    if (/[A-Z]/.test(value)) strength++;
-
-    if (/[0-9]/.test(value)) strength++;
-
-    if (/[!@#$%^&*(),.?":{}|<>]/.test(value)) strength++;
-
-    if (strength === 4) {
-      passwordFeedback.textContent = "Strong Password";
-      passwordFeedback.style.color = "green";
-    } else if (strength >= 2) {
-      passwordFeedback.textContent = "Medium Password";
-      passwordFeedback.style.color = "orange";
+    if (emailRegex.test(userEmail.value)) {
+        emailError.style.display = "none";
+        userEmail.style.borderColor = "green";
     } else {
-      passwordFeedback.textContent = "Weak Password";
-      passwordFeedback.style.color = "red";
+        emailError.style.display = "block";
+        userEmail.style.borderColor = "red";
     }
-  });
 
-  form.addEventListener("submit", function (event) {
+});
+
+// Password Strength
+userPassword.addEventListener("input", () => {
+
+    const value = userPassword.value;
+
+    let score = 0;
+
+    if (value.length >= 8) score++;
+    if (/[A-Z]/.test(value)) score++;
+    if (/[0-9]/.test(value)) score++;
+    if (/[^A-Za-z0-9]/.test(value)) score++;
+
+    if (value.length === 0) {
+        strengthMeter.style.width = "0%";
+        strengthText.textContent = "Strength: Empty";
+    }
+    else if (score <= 1) {
+        strengthMeter.style.width = "25%";
+        strengthMeter.style.background = "red";
+        strengthText.textContent = "Strength: Weak";
+    }
+    else if (score <= 3) {
+        strengthMeter.style.width = "60%";
+        strengthMeter.style.background = "orange";
+        strengthText.textContent = "Strength: Moderate";
+    }
+    else {
+        strengthMeter.style.width = "100%";
+        strengthMeter.style.background = "green";
+        strengthText.textContent = "Strength: Strong";
+    }
+
+});
+
+// Form Submit
+registrationForm.addEventListener("submit", (event) => {
+
     event.preventDefault();
 
-    if (!emailRegex.test(email.value)) {
-      alert("Please enter a valid email.");
-      return;
-    }
+    alert("Form Submitted Successfully!");
 
-    if (password.value !== confirmPassword.value) {
-      alert("Passwords do not match.");
-      return;
-    }
+});
+    // Data Array
+    const systemStats = [
+        {
+            title: "Total Doctors",
+            count: "10",
+            color: "green"
+        },
+        {
+            title: "Total Patients",
+            count: "85",
+            color: "blue"
+        },
+        {
+            title: "Pending Appointments",
+            count: "35",
+            color: "red"
+        }
+    ];
 
-    successMessage.textContent = "Registration Successful!";
-    successMessage.style.color = "green";
-    const user = {
-      name: nameInput.value,
-      email: email.value,
-      password: password.value,
-    };
+    // Dynamic Rendering
+    let cardsHTML = "";
 
-    localStorage.setItem("user", JSON.stringify(user));
+    systemStats.forEach((stat) => {
+        cardsHTML += StatsCardComponent(
+            stat.title,
+            stat.count,
+            stat.color
+        );
+    });
 
-    form.reset();
-
-    emailFeedback.textContent = "";
-    passwordFeedback.textContent = "";
-  });
-}
-
-// Book Appointment Button
-
-const bookBtn = document.getElementById("book-btn");
-
-if (bookBtn) {
-  bookBtn.addEventListener("click", function (event) {
-    event.preventDefault();
-
-    const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-    if (isLoggedIn === "true") {
-      window.location.href = "appointment.html";
-    } else {
-      window.location.href = "login.html";
-    }
-  });
-}
+    statsGrid.innerHTML = cardsHTML;
+});
