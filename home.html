@@ -42,13 +42,10 @@
         <div class="logo">
           <i class="fa-solid fa-heart-pulse"></i>
           <div>
-            <h2>Medical</h2>
-            <span>Appointment System</span>
+            <h2>MedTreat</h2>
           </div>
         </div>
 
-        <!-- Navigation -->
-        <!-- Mobile Menu Button -->
         <div class="menu-toggle" id="menu-toggle">
           <i class="fa-solid fa-bars"></i>
         </div>
@@ -67,7 +64,7 @@
             <i class="fa-regular fa-user"></i> Login
           </a>
 
-          <a href="#" class="book-btn"> Book Appointment </a>
+          <a href="#" class="book-btn" id="book-btn-nav">Book Appointment</a>
         </div>
       </div>
     </header>
@@ -91,7 +88,7 @@
           </p>
 
           <div class="hero-buttons">
-            <a href="#" class="book-btn"> Book Appointment </a>
+            <a href="#" class="book-btn" id="book-btn-hero">Book Appointment</a>
 
             <a href="login.html" class="login-btn">
               <i class="fa-regular fa-user"></i>
@@ -155,12 +152,33 @@
     </section>
     <script>
       const menuToggle = document.getElementById("menu-toggle");
-
       const navMenu = document.getElementById("nav-menu");
 
       menuToggle.addEventListener("click", function () {
         navMenu.classList.toggle("active");
       });
+
+      // Book Appointment Buttons
+      const bookButtons = document.querySelectorAll(".book-btn");
+
+      bookButtons.forEach((button) => {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+
+          const user = localStorage.getItem("user");
+          const loggedIn = localStorage.getItem("loggedIn");
+
+          if (user === null) {
+            window.location.href = "register.html";
+          } else if (loggedIn !== "true") {
+            window.location.href = "login.html";
+          } else {
+            window.location.href = "appointment.html";
+          }
+        });
+      });
     </script>
+
+    <script src="app.js"></script>
   </body>
 </html>

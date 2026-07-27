@@ -144,12 +144,11 @@ nav a:hover {
   cursor: pointer;
 }
 
-
-.menu-toggle{
-    display:none;
-    font-size:30px;
-    color:#1d68ff;
-    cursor:pointer;
+.menu-toggle {
+  display: none;
+  font-size: 30px;
+  color: #1d68ff;
+  cursor: pointer;
 }
 
 .login-btn {
@@ -450,44 +449,44 @@ nav a:hover {
     gap: 15px;
   }
 
- /* Navbar */
+  /* Navbar */
 
-.menu-toggle{
-    display:block;
-    order:2;
-}
+  .menu-toggle {
+    display: block;
+    order: 2;
+  }
 
-nav{
-    display:none;
-    width:100%;
-    order:4;
-}
+  nav {
+    display: none;
+    width: 100%;
+    order: 4;
+  }
 
-nav.active{
-    display:block;
-}
+  nav.active {
+    display: block;
+  }
 
-nav ul{
-    flex-direction:column;
-    align-items:center;
-    gap:18px;
-    padding:20px 0;
-}
+  nav ul {
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 0;
+  }
 
-.nav-buttons{
-    width:100%;
-    justify-content:center;
-    order:3;
-}
+  .nav-buttons {
+    width: 100%;
+    justify-content: center;
+    order: 3;
+  }
 
-.logo{
-    width:100%;
-    justify-content:space-between;
-}
+  .logo {
+    width: 100%;
+    justify-content: space-between;
+  }
 
-.search{
-    display:none;
-}
+  .search {
+    display: none;
+  }
   nav {
     width: 100%;
   }
@@ -617,4 +616,39 @@ nav ul{
   .info-box {
     width: 100%;
   }
+}
+
+/* LOGIN PAGE */
+
+#login-form {
+  margin-top: 30px;
+}
+
+#login-form input {
+  width: 100%;
+  max-width: 450px;
+
+  padding: 15px;
+
+  border: 2px solid #ddd;
+
+  border-radius: 10px;
+
+  font-size: 17px;
+
+  margin-bottom: 15px;
+}
+
+#login-form input:focus {
+  outline: none;
+
+  border-color: #1d68ff;
+}
+
+#login-message {
+  margin-top: 20px;
+
+  font-size: 18px;
+
+  font-weight: 600;
 }
