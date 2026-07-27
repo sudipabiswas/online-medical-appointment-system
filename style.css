@@ -76,3 +76,256 @@ main {
         padding: 5px 0;
     }
 }
+
+.registration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #f4f7fc;
+    padding: 40px 20px;
+}
+
+#register-form {
+    width: 100%;
+    max-width: 450px;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#register-form h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+#register-form label {
+    font-weight: bold;
+    color: #444;
+}
+
+#register-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+#register-form input:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 6px rgba(13, 110, 253, 0.3);
+}
+
+#register-form button {
+    padding: 12px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#register-form button:hover {
+    background: #0b5ed7;
+}
+
+.success {
+    color: #198754;
+    background: #d1e7dd;
+    border: 1px solid #badbcc;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.error {
+    color: #dc3545;
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.warning {
+    color: #fd7e14;
+    background: #fff3cd;
+    border: 1px solid #ffe69c;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .registration {
+        padding: 30px 15px;
+    }
+
+    #register-form {
+        max-width: 100%;
+        padding: 25px;
+    }
+
+    #register-form input,
+    #register-form button {
+        font-size: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .registration {
+        padding: 20px 10px;
+    }
+
+    #register-form {
+        padding: 20px;
+    }
+
+    #register-form h2 {
+        font-size: 22px;
+    }
+
+    #register-form input,
+    #register-form button {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
+
+body{
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+    background:#f4f7fc;
+}
+
+.login-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    padding:20px;
+}
+
+#login-form{
+    width:100%;
+    max-width:420px;
+    background:#ffffff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+#login-form h2{
+    text-align:center;
+    color:#0d6efd;
+    margin:0;
+}
+
+#login-form h3{
+    text-align:center;
+    color:#444;
+    margin-bottom:10px;
+}
+
+#login-form label{
+    font-weight:bold;
+    color:#333;
+}
+
+#login-form input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:16px;
+    box-sizing:border-box;
+    outline:none;
+    transition:.3s;
+}
+
+#login-form input:focus{
+    border-color:#0d6efd;
+    box-shadow:0 0 6px rgba(13,110,253,.3);
+}
+
+#login-form button{
+    padding:12px;
+    background:#0d6efd;
+    color:white;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+#login-form button:hover{
+    background:#084298;
+}
+
+.success{
+    color:#198754;
+    background:#d1e7dd;
+    border:1px solid #badbcc;
+    padding:8px;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.error{
+    color:#dc3545;
+    background:#f8d7da;
+    border:1px solid #f5c2c7;
+    padding:8px;
+    border-radius:6px;
+    font-size:14px;
+}
+
+.warning{
+    color:#fd7e14;
+    background:#fff3cd;
+    border:1px solid #ffe69c;
+    padding:8px;
+    border-radius:6px;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+
+#login-form{
+    padding:25px;
+}
+
+}
+
+@media(max-width:480px){
+
+#login-form{
+    padding:20px;
+}
+
+#login-form input,
+#login-form button{
+    font-size:14px;
+}
+
+#login-form h2{
+    font-size:22px;
+}
+
+}
