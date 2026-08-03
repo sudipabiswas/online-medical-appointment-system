@@ -50,15 +50,15 @@ $_SESSION['last_activity'] = time();
 </nav>
 <main class="max-w-4xl mx-auto p-6 mt-8">
 <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
-  <h2 class="text-2xl font-bold text-blue-900 mb-2">Welcome to Your Dashboard!</h2>
-  <p class="text-gray-600">You are logged in as:
+  <h2 class="text-2xl font-bold text-blue-900 mb-2">Welcome Back!</h2>
+  <p class="text-gray-600">You are securely authenticated as:
     <span class="font-bold text-blue-800" id="display-email"><?php echo htmlspecialchars($_SESSION['user_email']); ?></span>
   </p>
   <div class="mt-6 border-t border-gray-100 pt-6">
-    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Session Info</h3>
+    <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-2">Security Logging Metadata</h3>
     <ul class="text-xs text-gray-500 space-y-1">
       <li>Session Token: <code class="bg-gray-100 px-1 py-0.5 rounded text-blue-800"><?php echo session_id(); ?></code></li>
-      <li>Login Time: <?php echo date("Y-m-d H:i:s", $_SESSION['login_time']); ?></li>
+      <li>Authentication Time: <?php echo date("Y-m-d H:i:s", $_SESSION['login_time']); ?></li>
     </ul>
   </div>
 </div>
