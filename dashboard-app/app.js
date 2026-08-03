@@ -13,9 +13,9 @@ dashboard services.</p>
 <label class="block text-sm font-bold text-gray-700 mb-1" for="user-email">Email Address</label>
 <input type="email" id="user-email" required
 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none state-transition"
-placeholder="e.g., student@university.edu">
+placeholder="e.g., student@email.com">
 <p id="email-error" class="text-red-500 text-xs mt-1 hidden">
-Please provide a valid university email address.</p>
+Please provide a valid email address.</p>
 </div>
 <div>
 <label class="block text-sm font-bold text-gray-700 mb-1" for="user-password">Secure Password</label>

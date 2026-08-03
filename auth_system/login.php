@@ -25,7 +25,7 @@ $error_message = "Please provide a valid email format.";
 $error_message = "Security policy requires passwords to contain at least 8 characters.";
 } else {
 // Secure Simulated Authentication Check
-$mock_user_email = "student@university.edu";
+$mock_user_email = "student@email.com";
 $mock_password_hash = password_hash("secureStudent123", PASSWORD_DEFAULT);
 
 // Verify credentials securely using timing-attack resistant comparisons
@@ -72,7 +72,7 @@ $error_message = "Invalid credential combinations. Please try again.";
 <label for="email" class="block text-sm font-bold text-gray-700 mb-1">Email Address</label>
 <input type="email" id="email" name="email" required
 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-placeholder="e.g., student@university.edu"
+placeholder="e.g., student@email.com"
 value="<?php echo htmlspecialchars($email ?? ''); ?>">
 </div>
 <div>

@@ -40,7 +40,7 @@ Secure Log-Out
 </div>
 </nav>
 <main class="max-w-4xl mx-auto p-6 mt-8">
-<div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+<div class="bg-white p-8 rounded-xl shadow-sm border border-gray-200 mb-8">
 <h2 class="text-2xl font-bold text-blue-900 mb-2">Welcome Back!</h2>
 <p class="text-gray-600">You are securely authenticated as:
 <span class="font-bold text-gray-800"><?php echo htmlspecialchars($_SESSION['user_email']); ?></span>
@@ -54,6 +54,47 @@ Secure Log-Out
 </ul>
 </div>
 </div>
+
+<h2 class="text-xl font-bold text-gray-800 mb-4">Live Statistics</h2>
+<div id="stats-container"></div>
 </main>
+
+<script>
+// Reusable Component Definition from Week 3
+function StatsCardComponent(title, count, statusColor) {
+return `
+<div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 state-transition hover:shadow-md">
+<h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wider">${title}</h3>
+<p class="text-3xl font-bold text-gray-900 mt-2">${count}</p>
+<div class="flex items-center mt-3">
+<span class="h-2.5 w-2.5 rounded-full ${statusColor} mr-2"></span>
+<span class="text-xs text-gray-600">Active Monitoring</span>
+</div>
+</div>
+`;
+}
+
+// Simulated data model array fetched from backend APIs
+const systemStats = [
+{ name: "Total Clinic Registrations", count: "1,412", color: "bg-green-500" },
+{ name: "Admitted Consultations", count: "38", color: "bg-blue-500" },
+{ name: "Pending Emergency Alerts", count: "5", color: "bg-red-500" }
+];
+
+// Compile metrics into a container grid component
+function renderStatsSection() {
+const sectionElement = document.createElement('section');
+sectionElement.className = 'grid grid-cols-1 md:grid-cols-3 gap-6';
+let innerContentHTML = '';
+systemStats.forEach(item => {
+innerContentHTML += StatsCardComponent(item.name, item.count, item.color);
+});
+sectionElement.innerHTML = innerContentHTML;
+document.getElementById('stats-container').appendChild(sectionElement);
+}
+
+// Run compiled components render cycle
+renderStatsSection();
+</script>
 </body>
 </html>
