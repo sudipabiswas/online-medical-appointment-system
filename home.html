@@ -42,19 +42,16 @@
         <div class="logo">
           <i class="fa-solid fa-heart-pulse"></i>
           <div>
-            <h2>Medical</h2>
-            <span>Appointment System</span>
+            <h2>MedTreat</h2>
           </div>
         </div>
 
-        <!-- Navigation -->
-        <!-- Mobile Menu Button -->
         <div class="menu-toggle" id="menu-toggle">
           <i class="fa-solid fa-bars"></i>
         </div>
         <nav id="nav-menu">
           <ul>
-            <li><a class="active" href="#">Home</a></li>
+            <li><a class="active" href="home.html">Home</a></li>
             <li><a href="#">Doctors</a></li>
             <li><a href="#">Appointments</a></li>
             <li><a href="#">Services</a></li>
@@ -63,11 +60,11 @@
           </ul>
         </nav>
         <div class="nav-buttons">
-          <a href="login.html" class="login-btn">
+          <a href="auth_system/login.php" class="login-btn">
             <i class="fa-regular fa-user"></i> Login
           </a>
 
-          <a href="#" class="book-btn"> Book Appointment </a>
+          <a href="#" class="book-btn" id="book-btn-nav">Book Appointment</a>
         </div>
       </div>
     </header>
@@ -91,9 +88,9 @@
           </p>
 
           <div class="hero-buttons">
-            <a href="#" class="book-btn"> Book Appointment </a>
+            <a href="#" class="book-btn" id="book-btn-hero">Book Appointment</a>
 
-            <a href="login.html" class="login-btn">
+            <a href="auth_system/login.php" class="login-btn">
               <i class="fa-regular fa-user"></i>
               Login
             </a>
@@ -155,12 +152,24 @@
     </section>
     <script>
       const menuToggle = document.getElementById("menu-toggle");
-
       const navMenu = document.getElementById("nav-menu");
 
       menuToggle.addEventListener("click", function () {
         navMenu.classList.toggle("active");
       });
+
+      // Book Appointment Buttons
+      const bookButtons = document.querySelectorAll(".book-btn");
+
+      bookButtons.forEach((button) => {
+        button.addEventListener("click", function (event) {
+          event.preventDefault();
+          // Directly send users to the login flow to demonstrate authentication
+          window.location.href = "auth_system/login.php";
+        });
+      });
     </script>
   </body>
 </html>
+</html>
+
