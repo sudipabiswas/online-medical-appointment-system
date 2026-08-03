@@ -150,6 +150,48 @@
         </div>
       </div>
     </section>
+
+    <!-- ===== STATISTICS DASHBOARD SECTION ===== -->
+    <section id="dashboard" style="background:#f0f4ff; padding: 60px 0;">
+      <div class="container">
+        <div style="text-align:center; margin-bottom:40px;">
+          <span style="background:#e0e7ff; color:#3730a3; font-size:13px; font-weight:600; padding:6px 16px; border-radius:20px; letter-spacing:1px; text-transform:uppercase;">Live Overview</span>
+          <h2 style="font-size:2rem; font-weight:700; color:#1e3a5f; margin-top:12px;">System Statistics Dashboard</h2>
+          <p style="color:#6b7280; font-size:15px;">Real-time data overview of the medical appointment platform.</p>
+        </div>
+
+        <!-- Stats Cards Grid -->
+        <div id="stats-grid" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:24px; margin-bottom:48px;"></div>
+
+        <!-- Recent Appointments Table -->
+        <div style="background:#fff; border-radius:16px; padding:32px; box-shadow:0 4px 20px rgba(0,0,0,0.07);">
+          <h3 style="font-size:1.1rem; font-weight:700; color:#1e3a5f; margin-bottom:20px;">
+            <i class="fa-solid fa-calendar-check" style="color:#3b82f6; margin-right:8px;"></i>
+            Recent Appointments
+          </h3>
+          <div style="overflow-x:auto;">
+            <table style="width:100%; border-collapse:collapse; font-size:14px;">
+              <thead>
+                <tr style="background:#f8faff; text-align:left;">
+                  <th style="padding:12px 16px; color:#6b7280; font-weight:600; border-bottom:2px solid #e5e7eb;">#</th>
+                  <th style="padding:12px 16px; color:#6b7280; font-weight:600; border-bottom:2px solid #e5e7eb;">Patient</th>
+                  <th style="padding:12px 16px; color:#6b7280; font-weight:600; border-bottom:2px solid #e5e7eb;">Doctor</th>
+                  <th style="padding:12px 16px; color:#6b7280; font-weight:600; border-bottom:2px solid #e5e7eb;">Date</th>
+                  <th style="padding:12px 16px; color:#6b7280; font-weight:600; border-bottom:2px solid #e5e7eb;">Status</th>
+                </tr>
+              </thead>
+              <tbody id="appointments-table-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===== END DASHBOARD SECTION ===== -->
+
+    <footer style="background:#1e3a5f; color:#fff; text-align:center; padding:20px;">
+      <p style="margin:0; font-size:14px;">© 2026 MedTreat. All Rights Reserved.</p>
+    </footer>
+
     <script>
       const menuToggle = document.getElementById("menu-toggle");
       const navMenu = document.getElementById("nav-menu");
@@ -160,13 +202,73 @@
 
       // Book Appointment Buttons
       const bookButtons = document.querySelectorAll(".book-btn");
-
       bookButtons.forEach((button) => {
         button.addEventListener("click", function (event) {
           event.preventDefault();
-          // Directly send users to the login flow to demonstrate authentication
           window.location.href = "auth_system/login.php";
         });
+      });
+
+      // ---- DASHBOARD LOGIC ----
+
+      // Reusable StatsCardComponent
+      function StatsCardComponent(icon, title, count, color, bg) {
+        return `
+          <div style="background:#fff; border-radius:16px; padding:28px 24px; box-shadow:0 4px 20px rgba(0,0,0,0.07); display:flex; flex-direction:column; gap:12px; transition:transform .2s;" onmouseover="this.style.transform='translateY(-4px)'" onmouseout="this.style.transform='translateY(0)'">
+            <div style="width:48px; height:48px; border-radius:12px; background:${bg}; display:flex; align-items:center; justify-content:center;">
+              <i class="${icon}" style="color:${color}; font-size:20px;"></i>
+            </div>
+            <p style="font-size:2rem; font-weight:700; color:#1e3a5f; margin:0;">${count}</p>
+            <p style="font-size:14px; color:#6b7280; margin:0; font-weight:500;">${title}</p>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="width:8px; height:8px; border-radius:50%; background:${color};"></span>
+              <span style="font-size:12px; color:#9ca3af;">Active Monitoring</span>
+            </div>
+          </div>`;
+      }
+
+      // Stats data array
+      const systemStats = [
+        { icon: "fa-solid fa-user-doctor",    title: "Total Doctors",            count: "50+",   color: "#10b981", bg: "#d1fae5" },
+        { icon: "fa-solid fa-hospital-user",  title: "Registered Patients",      count: "1,412", color: "#3b82f6", bg: "#dbeafe" },
+        { icon: "fa-solid fa-calendar-check", title: "Pending Appointments",     count: "35",    color: "#f59e0b", bg: "#fef3c7" },
+        { icon: "fa-solid fa-triangle-exclamation", title: "Emergency Alerts",  count: "5",     color: "#ef4444", bg: "#fee2e2" }
+      ];
+
+      // Render cards
+      const statsGrid = document.getElementById("stats-grid");
+      systemStats.forEach(stat => {
+        statsGrid.innerHTML += StatsCardComponent(stat.icon, stat.title, stat.count, stat.color, stat.bg);
+      });
+
+      // Recent appointments data
+      const appointments = [
+        { id: 1, patient: "Rahim Hossain",  doctor: "Dr. Ayesha Siddiqui", date: "2026-07-28", status: "Confirmed" },
+        { id: 2, patient: "Nasrin Begum",   doctor: "Dr. Kamal Uddin",     date: "2026-07-28", status: "Pending"   },
+        { id: 3, patient: "Jahangir Alam",  doctor: "Dr. Sara Islam",      date: "2026-07-29", status: "Confirmed" },
+        { id: 4, patient: "Fatema Khatun",  doctor: "Dr. Rafiq Ahmed",     date: "2026-07-29", status: "Cancelled" },
+        { id: 5, patient: "Milon Sheikh",   doctor: "Dr. Ayesha Siddiqui", date: "2026-07-30", status: "Pending"   },
+      ];
+
+      const statusColors = {
+        "Confirmed": { bg: "#d1fae5", color: "#065f46" },
+        "Pending":   { bg: "#fef3c7", color: "#92400e" },
+        "Cancelled": { bg: "#fee2e2", color: "#991b1b" },
+      };
+
+      const tbody = document.getElementById("appointments-table-body");
+      appointments.forEach(appt => {
+        const s = statusColors[appt.status];
+        tbody.innerHTML += `
+          <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:14px 16px; color:#9ca3af;">${appt.id}</td>
+            <td style="padding:14px 16px; font-weight:600; color:#1e3a5f;">${appt.patient}</td>
+            <td style="padding:14px 16px; color:#374151;">${appt.doctor}</td>
+            <td style="padding:14px 16px; color:#6b7280;">${appt.date}</td>
+            <td style="padding:14px 16px;">
+              <span style="background:${s.bg}; color:${s.color}; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600;">${appt.status}</span>
+            </td>
+          </tr>`;
       });
     </script>
   </body>

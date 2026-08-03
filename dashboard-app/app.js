@@ -98,17 +98,13 @@ const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userEmail.value);
 const isPasswordStrong = userPassword.value.length >= 8;
 
 if (isEmailValid && isPasswordStrong) {
-appContainer.innerHTML = `
-<div class="bg-green-100 border border-green-400 text-green-700 px-6 py-4 rounded-xl text-center max-w-md mx-auto shadow-md">
-<h2 class="text-2xl font-bold mb-2">Account Created Safely!</h2>
-<p class="text-sm">Welcome to HealthSuite. Your secure registration transaction is logged.</p>
-<button onclick="window.location.href='../auth_system/dashboard.php'" class="mt-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-lg state-transition">
-Go to Dashboard
-</button>
-</div>
-`;
+  // Save registered user info to localStorage for dashboard display
+  localStorage.setItem('registered_user', userEmail.value);
+  localStorage.setItem('loggedIn', 'true');
+  // Redirect directly to dashboard — no intermediate screen
+  window.location.href = '../auth_system/dashboard.php';
 } else {
-alert('Validation failed! Please correct validation inputs before committing.');
+  alert('Validation failed! Please correct your email and password before submitting.');
 }
 });
 
