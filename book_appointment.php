@@ -3,7 +3,7 @@ session_start();
 include "config.php";
 
 if (!isset($_SESSION['user_email'])) {
-    echo "<script>alert('Please sign in first to book an appointment.'); window.location.href = 'login.php';</script>";
+    echo "<script>alert('Please sign in first to book an appointment.'); window.location.href = 'home.php';</script>";
     exit();
 }
 

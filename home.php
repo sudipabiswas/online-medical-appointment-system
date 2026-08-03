@@ -237,7 +237,7 @@ if (isset($conn)) {
           event.preventDefault();
           if (!isLoggedIn) {
               alert("Please sign in first to book an appointment.");
-              window.location.href = "login.php";
+              window.location.href = "home.php";
           } else {
               window.location.href = "book_appointment.php";
           }
