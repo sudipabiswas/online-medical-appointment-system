@@ -19,15 +19,15 @@ $email = $_SESSION['user_email'];
 // Retrieve detailed appointment record
 $sql = "SELECT 
             a.appointment_id as id,
-            DATE(a.appointment_time) as appointment_date,
+            a.appointment_date,
             TIME(a.appointment_time) as appointment_time,
             a.status,
             a.created_at,
-            d.doctor_name, 
-            d.specialty, 
+            d.full_name as doctor_name, 
+            'Specialist' as specialty, 
             u.full_name as patient_name
         FROM appointments a 
-        INNER JOIN doctors d ON a.doctor_id = d.doctor_id 
+        INNER JOIN users d ON a.doctor_id = d.user_id 
         INNER JOIN users u ON a.patient_id = u.user_id
         WHERE a.appointment_id = ? AND u.email = ?";
 $stmt = mysqli_prepare($conn, $sql);
