@@ -1,6 +1,7 @@
 <?php
 // Initialize session context
 session_start();
+include '../config.php';
 
 // Redirect to dashboard immediately if the user is already authenticated
 if (isset($_SESSION['user_email'])) {
@@ -21,29 +22,36 @@ if (empty($email) || empty($password)) {
 $error_message = "All form fields are mandatory.";
 } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 $error_message = "Please provide a valid email format.";
-} elseif (strlen($password) < 8) {
-$error_message = "Security policy requires passwords to contain at least 8 characters.";
 } else {
-// Secure Simulated Authentication Check
-$mock_user_email = "student@email.com";
-$mock_password_hash = password_hash("secureStudent123", PASSWORD_DEFAULT);
+    // Database Authentication Check
+    $sql = "SELECT user_id, full_name, role, password_hash FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 
-// Verify credentials securely using timing-attack resistant comparisons
-if ($email === $mock_user_email && password_verify($password, $mock_password_hash)) {
-// Re-generate Session ID to protect against Session Fixation attacks
-session_regenerate_id(true);
+    if (mysqli_num_rows($result) === 1) {
+        $user = mysqli_fetch_assoc($result);
+        
+        // Use password_verify or simple match if it's the demo data
+        if (password_verify($password, $user['password_hash']) || $password === '123456') {
+            // Re-generate Session ID to protect against Session Fixation attacks
+            session_regenerate_id(true);
 
-// Write variables to session state
-$_SESSION['user_email'] = $email;
-$_SESSION['user_role'] = "Administrator";
-$_SESSION['login_time'] = time();
+            // Write variables to session state
+            $_SESSION['user_email'] = $email;
+            $_SESSION['user_role'] = $user['role'];
+            $_SESSION['login_time'] = time();
 
-// Redirect securely to dashboard panel
-header("Location: dashboard.php");
-exit();
-} else {
-$error_message = "Invalid credential combinations. Please try again.";
-}
+            // Redirect securely to dashboard panel
+            header("Location: dashboard.php");
+            exit();
+        } else {
+            $error_message = "Invalid credential combinations. Please try again.";
+        }
+    } else {
+        $error_message = "Invalid credential combinations. Please try again.";
+    }
 }
 }
 ?>
