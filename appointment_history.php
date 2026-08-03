@@ -13,15 +13,15 @@ $email = $_SESSION['user_email'];
 // Retrieve appointment records
 $sql = "SELECT 
             a.appointment_id as id, 
-            d.full_name as doctor_name, 
-            a.appointment_date, 
+            d.doctor_name, 
+            DATE(a.appointment_time) as appointment_date, 
             TIME(a.appointment_time) as appointment_time, 
             a.status 
         FROM appointments a 
-        INNER JOIN users d ON a.doctor_id = d.user_id 
+        INNER JOIN doctors d ON a.doctor_id = d.doctor_id 
         INNER JOIN users p ON a.patient_id = p.user_id
         WHERE p.email = ?
-        ORDER BY a.appointment_date DESC, a.appointment_time DESC";
+        ORDER BY a.appointment_time DESC";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "s", $email);
 mysqli_stmt_execute($stmt);

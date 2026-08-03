@@ -19,17 +19,17 @@ $email = $_SESSION['user_email'];
 // Retrieve detailed appointment record
 $sql = "SELECT 
             a.appointment_id as id,
-            a.appointment_date,
+            DATE(a.appointment_time) as appointment_date,
             TIME(a.appointment_time) as appointment_time,
             a.status,
             a.created_at,
-            d.full_name as doctor_name, 
-            'Specialist' as specialty, 
-            p.full_name as patient_name
+            d.doctor_name, 
+            d.specialty, 
+            u.full_name as patient_name
         FROM appointments a 
-        INNER JOIN users d ON a.doctor_id = d.user_id 
-        INNER JOIN users p ON a.patient_id = p.user_id
-        WHERE a.appointment_id = ? AND p.email = ?";
+        INNER JOIN doctors d ON a.doctor_id = d.doctor_id 
+        INNER JOIN users u ON a.patient_id = u.user_id
+        WHERE a.appointment_id = ? AND u.email = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "is", $appointment_id, $email);
 mysqli_stmt_execute($stmt);
@@ -64,7 +64,7 @@ $appointment = mysqli_fetch_assoc($result);
                     <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-2">Doctor Information</h3>
                     <p class="text-lg font-bold text-gray-800"><?php echo htmlspecialchars($appointment['doctor_name']); ?></p>
                     <p class="text-gray-600 mb-1"><?php echo htmlspecialchars($appointment['specialty']); ?></p>
-                    <p class="text-sm text-gray-500">Room: Consultation Room</p>
+                    <p class="text-sm text-gray-500">Room: <?php echo htmlspecialchars($appointment['clinic_room'] ?? 'N/A'); ?></p>
                 </div>
                 
                 <div>
