@@ -2,6 +2,11 @@
 session_start();
 include "config.php";
 
+if (isset($_SESSION['user_email'])) {
+    header("Location: auth_system/dashboard.php");
+    exit();
+}
+
 $error_message = "";
 $success_message = "";
 

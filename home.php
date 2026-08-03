@@ -88,15 +88,9 @@ if (isset($conn)) {
           </ul>
         </nav>
         <div class="nav-buttons">
-          <?php if(isset($_SESSION['user_email'])): ?>
-            <a href="auth_system/dashboard.php" class="login-btn">
-              <i class="fa-regular fa-user"></i> Dashboard
-            </a>
-          <?php else: ?>
-            <a href="login.php" class="login-btn">
-              <i class="fa-regular fa-user"></i> Login
-            </a>
-          <?php endif; ?>
+          <a href="login.php" class="login-btn">
+            <i class="fa-regular fa-user"></i> Login
+          </a>
 
           <a href="#" class="book-btn" id="book-btn-nav">Book Appointment</a>
         </div>
@@ -124,17 +118,10 @@ if (isset($conn)) {
           <div class="hero-buttons">
             <a href="#" class="book-btn" id="book-btn-hero">Book Appointment</a>
 
-            <?php if(!isset($_SESSION['user_email'])): ?>
             <a href="login.php" class="login-btn">
               <i class="fa-regular fa-user"></i>
               Login
             </a>
-            <?php else: ?>
-            <a href="auth_system/dashboard.php" class="login-btn" style="background:#fff; color:#2563eb; border:1px solid #2563eb;">
-              <i class="fa-regular fa-user"></i>
-              Dashboard
-            </a>
-            <?php endif; ?>
           </div>
 
           <div class="hero-info">
