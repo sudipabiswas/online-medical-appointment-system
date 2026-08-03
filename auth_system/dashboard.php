@@ -1,5 +1,6 @@
 <?php
 session_start();
+include '../config.php';
 
 // Guard Clause: Allow access if session exists OR if user registered via frontend
 // (Frontend registration stores loggedIn flag; PHP session set after login.php)
@@ -22,6 +23,22 @@ if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity'] > 
 
 // Update activity timestamp
 $_SESSION['last_activity'] = time();
+
+// Fetch dynamic stats from database
+$stats = [
+    'patients' => 0,
+    'doctors' => 0,
+    'appointments' => 0
+];
+if (isset($conn)) {
+    $res = mysqli_query($conn, "SELECT 
+        (SELECT COUNT(*) FROM users WHERE role='Patient') as patients,
+        (SELECT COUNT(*) FROM users WHERE role='Doctor') as doctors,
+        (SELECT COUNT(*) FROM appointments) as appointments");
+    if ($res) {
+        $stats = mysqli_fetch_assoc($res);
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,11 +108,11 @@ return `
 `;
 }
 
-// Simulated data model array fetched from backend APIs
+// Dynamic data from database
 const systemStats = [
-{ name: "Total Clinic Registrations", count: "1,412", color: "bg-green-500" },
-{ name: "Admitted Consultations", count: "38", color: "bg-blue-500" },
-{ name: "Pending Emergency Alerts", count: "5", color: "bg-red-500" }
+{ name: "Registered Patients", count: "<?php echo $stats['patients']; ?>", color: "bg-green-500" },
+{ name: "Active Doctors", count: "<?php echo $stats['doctors']; ?>", color: "bg-blue-500" },
+{ name: "Total Appointments", count: "<?php echo $stats['appointments']; ?>", color: "bg-red-500" }
 ];
 
 // Compile metrics into a container grid component

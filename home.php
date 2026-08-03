@@ -1,3 +1,30 @@
+<?php
+include 'config.php';
+$dbStats = ['doctors'=>0, 'patients'=>0, 'appointments'=>0, 'pending'=>0];
+$recent_appointments = [];
+if (isset($conn)) {
+    $res = mysqli_query($conn, "SELECT 
+        (SELECT COUNT(*) FROM users WHERE role='Doctor') as doctors,
+        (SELECT COUNT(*) FROM users WHERE role='Patient') as patients,
+        (SELECT COUNT(*) FROM appointments) as appointments,
+        (SELECT COUNT(*) FROM appointments WHERE status='Scheduled' OR status='Pending') as pending");
+    if ($res) {
+        $dbStats = mysqli_fetch_assoc($res);
+    }
+    
+    $appt_sql = "SELECT a.appointment_id as id, p.full_name as patient, d.full_name as doctor, a.appointment_date as date, a.status 
+                 FROM appointments a 
+                 JOIN users p ON a.patient_id = p.user_id 
+                 JOIN users d ON a.doctor_id = d.user_id 
+                 ORDER BY a.appointment_date DESC LIMIT 5";
+    $appt_res = mysqli_query($conn, $appt_sql);
+    if ($appt_res) {
+        while($row = mysqli_fetch_assoc($appt_res)) {
+            $recent_appointments[] = $row;
+        }
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -51,7 +78,7 @@
         </div>
         <nav id="nav-menu">
           <ul>
-            <li><a class="active" href="home.html">Home</a></li>
+            <li><a class="active" href="home.php">Home</a></li>
             <li><a href="#">Doctors</a></li>
             <li><a href="#">Appointments</a></li>
             <li><a href="#">Services</a></li>
@@ -227,13 +254,13 @@
           </div>`;
       }
 
-      // Stats data array
-      const systemStats = [
-        { icon: "fa-solid fa-user-doctor",    title: "Total Doctors",            count: "50+",   color: "#10b981", bg: "#d1fae5" },
-        { icon: "fa-solid fa-hospital-user",  title: "Registered Patients",      count: "1,412", color: "#3b82f6", bg: "#dbeafe" },
-        { icon: "fa-solid fa-calendar-check", title: "Pending Appointments",     count: "35",    color: "#f59e0b", bg: "#fef3c7" },
-        { icon: "fa-solid fa-triangle-exclamation", title: "Emergency Alerts",  count: "5",     color: "#ef4444", bg: "#fee2e2" }
-      ];
+        // Stats data array dynamically built
+        const systemStats = [
+          { icon: "fa-solid fa-user-doctor",    title: "Total Doctors",            count: "<?php echo $dbStats['doctors']; ?>",   color: "#10b981", bg: "#d1fae5" },
+          { icon: "fa-solid fa-hospital-user",  title: "Registered Patients",      count: "<?php echo $dbStats['patients']; ?>", color: "#3b82f6", bg: "#dbeafe" },
+          { icon: "fa-solid fa-calendar-check", title: "Total Appointments",     count: "<?php echo $dbStats['appointments']; ?>",    color: "#f59e0b", bg: "#fef3c7" },
+          { icon: "fa-solid fa-clock", title: "Pending Appointments",  count: "<?php echo $dbStats['pending']; ?>",     color: "#ef4444", bg: "#fee2e2" }
+        ];
 
       // Render cards
       const statsGrid = document.getElementById("stats-grid");
@@ -241,19 +268,15 @@
         statsGrid.innerHTML += StatsCardComponent(stat.icon, stat.title, stat.count, stat.color, stat.bg);
       });
 
-      // Recent appointments data
-      const appointments = [
-        { id: 1, patient: "Rahim Hossain",  doctor: "Dr. Ayesha Siddiqui", date: "2026-07-28", status: "Confirmed" },
-        { id: 2, patient: "Nasrin Begum",   doctor: "Dr. Kamal Uddin",     date: "2026-07-28", status: "Pending"   },
-        { id: 3, patient: "Jahangir Alam",  doctor: "Dr. Sara Islam",      date: "2026-07-29", status: "Confirmed" },
-        { id: 4, patient: "Fatema Khatun",  doctor: "Dr. Rafiq Ahmed",     date: "2026-07-29", status: "Cancelled" },
-        { id: 5, patient: "Milon Sheikh",   doctor: "Dr. Ayesha Siddiqui", date: "2026-07-30", status: "Pending"   },
-      ];
+        // Recent appointments data from database
+        const appointments = <?php echo json_encode($recent_appointments); ?>;
 
       const statusColors = {
-        "Confirmed": { bg: "#d1fae5", color: "#065f46" },
-        "Pending":   { bg: "#fef3c7", color: "#92400e" },
-        "Cancelled": { bg: "#fee2e2", color: "#991b1b" },
+          "Scheduled": { bg: "#fef3c7", color: "#92400e" },
+          "Completed": { bg: "#d1fae5", color: "#065f46" },
+          "Confirmed": { bg: "#d1fae5", color: "#065f46" },
+          "Pending":   { bg: "#fef3c7", color: "#92400e" },
+          "Cancelled": { bg: "#fee2e2", color: "#991b1b" },
       };
 
       const tbody = document.getElementById("appointments-table-body");

@@ -78,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- Top Navigation Header -->
     <header class="bg-white border-b border-gray-200 py-4 shadow-sm">
         <div class="max-w-6xl mx-auto px-4 flex justify-between items-center">
-            <a href="home.html" class="flex items-center gap-2 text-2xl font-bold text-blue-900">
+            <a href="home.php" class="flex items-center gap-2 text-2xl font-bold text-blue-900">
                 <i class="fa-solid fa-heart-pulse text-blue-600"></i>
                 <span>MedTreat</span>
             </a>

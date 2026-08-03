@@ -147,7 +147,7 @@ try {
 
         <!-- Navigation Link -->
         <div class="text-center mt-10">
-            <a href="home.html" class="text-sm text-blue-700 hover:text-blue-900 font-semibold">
+            <a href="home.php" class="text-sm text-blue-700 hover:text-blue-900 font-semibold">
                 <i class="fa-solid fa-arrow-left mr-1"></i> Return to Main Homepage
             </a>
         </div>
