@@ -3,7 +3,7 @@
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "medical_appointment";
+$database = "healthsuite_db";
 
 $conn = mysqli_connect($host, $username, $password, $database);
 
