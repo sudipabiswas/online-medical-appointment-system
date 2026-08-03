@@ -61,6 +61,15 @@ $_SESSION['last_activity'] = time();
       <li>Authentication Time: <?php echo date("Y-m-d H:i:s", $_SESSION['login_time']); ?></li>
     </ul>
   </div>
+
+  <div class="mt-6 flex flex-wrap gap-4 border-t border-gray-100 pt-6">
+    <a href="../book_appointment.php" class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition duration-200">
+      + Book Appointment
+    </a>
+    <a href="../appointment_history.php" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg transition duration-200">
+      View Appointment History
+    </a>
+  </div>
 </div>
 
 <h2 class="text-xl font-bold text-gray-800 mb-4">Live Statistics</h2>

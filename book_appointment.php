@@ -27,12 +27,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $doctor_id = trim($_POST['doctor_id'] ?? '');
     $patient_name = trim($_POST['patient_name'] ?? '');
     $appointment_date = trim($_POST['appointment_date'] ?? '');
+    $appointment_time = date('Y-m-d H:i:s', strtotime("$appointment_date 10:00:00"));
 
     if (empty($doctor_id) || empty($patient_name) || empty($appointment_date)) {
         $error_message = "Please fill in all required fields.";
+    } elseif (!isset($_SESSION['user_email'])) {
+        $error_message = "Please login to book an appointment.";
     } else {
-        // Here you can insert into your appointments table
-        $success_message = "Your appointment request has been submitted successfully!";
+        // Fetch patient_id based on session email
+        $email = $_SESSION['user_email'];
+        $sql = "SELECT user_id FROM users WHERE email = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $res = mysqli_stmt_get_result($stmt);
+        if (mysqli_num_rows($res) === 1) {
+            $user = mysqli_fetch_assoc($res);
+            $patient_id = $user['user_id'];
+            
+            $insert_sql = "INSERT INTO appointments (patient_id, doctor_id, appointment_date, appointment_time, status) VALUES (?, ?, ?, ?, 'Scheduled')";
+            $insert_stmt = mysqli_prepare($conn, $insert_sql);
+            mysqli_stmt_bind_param($insert_stmt, "iiss", $patient_id, $doctor_id, $appointment_date, $appointment_time);
+            if (mysqli_stmt_execute($insert_stmt)) {
+                // Redirect to the new confirmation page from Mostafizur's code
+                header("Location: booking_confirmation.php");
+                exit();
+            } else {
+                $error_message = "Failed to book appointment. Try again later.";
+            }
+        } else {
+            $error_message = "User not found in system.";
+        }
     }
 }
 ?>
