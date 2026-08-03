@@ -3,6 +3,11 @@ session_start();
 include "config.php";
 
 $error_message = "";
+$success_message = "";
+
+if (isset($_GET['registered']) && $_GET['registered'] == 'success') {
+    $success_message = "Registration successful! Please login with your credentials.";
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -53,50 +58,70 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Patient Login</title>
 
     <link rel="stylesheet" href="styles.css">
+    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
 </head>
 
 <body>
+    <section class="hero">
+      <div class="overlay"></div>
 
-<div class="login-container">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <span class="tagline">Welcome Back</span>
 
-    <form id="login-form" action="login.php" method="POST">
+          <h1>Patient Login</h1>
 
-        <h2>Online Medical Appointment System</h2>
+          <p>Login using your registered email and password.</p>
 
-        <h3>Login</h3>
+          <form id="login-form" action="login.php" method="POST">
+            <?php if (!empty($error_message)): ?>
+                <p style="color: #fca5a5; font-weight: bold; margin-bottom: 15px;"><?php echo htmlspecialchars($error_message); ?></p>
+            <?php endif; ?>
 
-        <?php if (!empty($error_message)): ?>
-            <p class="error"><?php echo htmlspecialchars($error_message); ?></p>
-        <?php endif; ?>
+            <?php if (!empty($success_message)): ?>
+                <p style="color: #86efac; font-weight: bold; margin-bottom: 15px;"><?php echo htmlspecialchars($success_message); ?></p>
+            <?php endif; ?>
 
-        <label for="email">Email</label>
+            <input
+              type="email"
+              id="login-email"
+              name="email"
+              placeholder="Email"
+              required
+            />
 
-        <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email"
-            required>
+            <br /><br />
 
-        <label for="password">Password</label>
+            <input
+              type="password"
+              id="login-password"
+              name="password"
+              placeholder="Password"
+              required
+            />
 
-        <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Enter your password"
-            required>
+            <br /><br />
 
-        <button type="submit">
-            Login
-        </button>
+            <button type="submit" class="book-btn">Login</button>
 
-    </form>
-
-</div>
-
+            <div style="margin-top: 20px;">
+                <a href="register.php" style="color: #fff; text-decoration: underline; font-size: 15px;">Doesn't have account? Create one</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
 </body>
 </html>

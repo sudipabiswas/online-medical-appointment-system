@@ -2,6 +2,26 @@
 session_start();
 include "config.php";
 
+if (!isset($_SESSION['user_email'])) {
+    echo "<script>alert('Please sign in first to book an appointment.'); window.location.href = 'login.php';</script>";
+    exit();
+}
+
+$user_email = $_SESSION['user_email'];
+$current_patient_name = "";
+
+// Fetch patient info
+try {
+    $sql_patient = "SELECT full_name FROM users WHERE email = ?";
+    $stmt_patient = mysqli_prepare($conn, $sql_patient);
+    mysqli_stmt_bind_param($stmt_patient, "s", $user_email);
+    mysqli_stmt_execute($stmt_patient);
+    $res_patient = mysqli_stmt_get_result($stmt_patient);
+    if ($row = mysqli_fetch_assoc($res_patient)) {
+        $current_patient_name = $row['full_name'];
+    }
+} catch (Exception $e) {}
+
 // Get doctor_id from URL if passed from doctors.php
 $selected_doctor_id = $_GET['doctor_id'] ?? '';
 
@@ -49,11 +69,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $insert_stmt = mysqli_prepare($conn, $insert_sql);
             mysqli_stmt_bind_param($insert_stmt, "iiss", $patient_id, $doctor_id, $appointment_date, $appointment_time);
             if (mysqli_stmt_execute($insert_stmt)) {
+                $last_id = mysqli_insert_id($conn);
                 // Redirect to the new confirmation page from Mostafizur's code
-                header("Location: booking_confirmation.php");
+                header("Location: booking_confirmation.php?booking_id=" . $last_id);
                 exit();
             } else {
-                $error_message = "Failed to book appointment. Try again later.";
+                $error_message = "Failed to book appointment: " . mysqli_error($conn);
             }
         } else {
             $error_message = "User not found in system.";
@@ -139,8 +160,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             type="text" 
                             id="patient_name" 
                             name="patient_name" 
+                            value="<?php echo htmlspecialchars($current_patient_name); ?>"
                             placeholder="Enter full name" 
                             required 
+                            readonly
                             class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-xl focus:ring-2 focus:ring-blue-600 focus:border-transparent outline-none transition"
                         />
                     </div>

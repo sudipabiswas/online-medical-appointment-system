@@ -1,4 +1,5 @@
 <?php
+session_start();
 include 'config.php';
 $dbStats = ['doctors'=>0, 'patients'=>0, 'appointments'=>0, 'pending'=>0];
 $recent_appointments = [];
@@ -87,9 +88,15 @@ if (isset($conn)) {
           </ul>
         </nav>
         <div class="nav-buttons">
-          <a href="auth_system/login.php" class="login-btn">
-            <i class="fa-regular fa-user"></i> Login
-          </a>
+          <?php if(isset($_SESSION['user_email'])): ?>
+            <a href="auth_system/dashboard.php" class="login-btn">
+              <i class="fa-regular fa-user"></i> Dashboard
+            </a>
+          <?php else: ?>
+            <a href="login.php" class="login-btn">
+              <i class="fa-regular fa-user"></i> Login
+            </a>
+          <?php endif; ?>
 
           <a href="#" class="book-btn" id="book-btn-nav">Book Appointment</a>
         </div>
@@ -117,10 +124,17 @@ if (isset($conn)) {
           <div class="hero-buttons">
             <a href="#" class="book-btn" id="book-btn-hero">Book Appointment</a>
 
-            <a href="auth_system/login.php" class="login-btn">
+            <?php if(!isset($_SESSION['user_email'])): ?>
+            <a href="login.php" class="login-btn">
               <i class="fa-regular fa-user"></i>
               Login
             </a>
+            <?php else: ?>
+            <a href="auth_system/dashboard.php" class="login-btn" style="background:#fff; color:#2563eb; border:1px solid #2563eb;">
+              <i class="fa-regular fa-user"></i>
+              Dashboard
+            </a>
+            <?php endif; ?>
           </div>
 
           <div class="hero-info">
@@ -229,10 +243,17 @@ if (isset($conn)) {
 
       // Book Appointment Buttons
       const bookButtons = document.querySelectorAll(".book-btn");
+      const isLoggedIn = <?php echo isset($_SESSION['user_email']) ? 'true' : 'false'; ?>;
+      
       bookButtons.forEach((button) => {
         button.addEventListener("click", function (event) {
           event.preventDefault();
-          window.location.href = "auth_system/login.php";
+          if (!isLoggedIn) {
+              alert("Please sign in first to book an appointment.");
+              window.location.href = "login.php";
+          } else {
+              window.location.href = "book_appointment.php";
+          }
         });
       });
 

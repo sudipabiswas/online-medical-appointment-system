@@ -17,6 +17,6 @@ $params["secure"], $params["httponly"]
 session_destroy();
 
 // Redirect user to login interface securely
-header("Location: login.php?msg=You have logged out successfully");
+header("Location: ../home.php");
 exit();
 ?>

@@ -90,7 +90,7 @@ class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:rin
 placeholder="Enter security key">
 </div>
 <div class="text-right">
-<a href="../dashboard-app/index.html" class="text-sm text-blue-600 hover:text-blue-800 font-semibold">Doesn't have account? Create one</a>
+<a href="../register.php" class="text-sm text-blue-600 hover:text-blue-800 font-semibold">Doesn't have account? Create one</a>
 </div>
 <button type="submit" class="w-full bg-blue-900 hover:bg-blue-800 text-white font-bold py-3 rounded-lg transition duration-200">
 Secure Sign-In
